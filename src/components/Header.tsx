@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Instagram } from 'lucide-react';
-import { navItems, contactInfo } from '@/data/projects';
+import { Menu, X, Instagram, ChevronDown } from 'lucide-react';
+import { navItems, contactInfo, projects } from '@/data/projects';
 
 interface HeaderProps {
   currentPath: string;
@@ -11,6 +11,7 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [projectsOpen, setProjectsOpen] = useState(false);
+  const [mobileProjectsOpen, setMobileProjectsOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -21,12 +22,14 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
   useEffect(() => {
     setMobileOpen(false);
     setProjectsOpen(false);
+    setMobileProjectsOpen(false);
   }, [currentPath]);
 
   const handleNav = (path: string) => {
     onNavigate(path);
     setMobileOpen(false);
     setProjectsOpen(false);
+    setMobileProjectsOpen(false);
   };
 
   const isActive = (path: string) => {
@@ -68,14 +71,61 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
                   >
                     <button
                       onClick={() => handleNav(item.path)}
-                      className={`px-4 py-2 text-sm font-medium tracking-wide uppercase transition-colors rounded ${
+                      className={`px-4 py-2 text-sm font-medium tracking-wide uppercase transition-colors rounded inline-flex items-center gap-1 ${
                         isActive(item.path)
                           ? 'text-amber-400'
                           : 'text-white/90 hover:text-amber-300'
                       }`}
                     >
                       {item.label}
+                      <ChevronDown
+                        size={14}
+                        className={`transition-transform duration-300 ${projectsOpen ? 'rotate-180' : ''}`}
+                      />
                     </button>
+
+                    {/* Dropdown */}
+                    <div
+                      className={`absolute top-full left-1/2 -translate-x-1/2 pt-2 transition-all duration-300 ${
+                        projectsOpen
+                          ? 'opacity-100 visible translate-y-0'
+                          : 'opacity-0 invisible -translate-y-2'
+                      }`}
+                    >
+                      <div className="bg-stone-900/97 backdrop-blur-md shadow-2xl rounded-sm w-80 max-h-[70vh] overflow-y-auto border border-white/10">
+                        <div className="py-2">
+                          <button
+                            onClick={() => handleNav('/projects')}
+                            className="w-full text-left px-5 py-2 text-amber-400 text-xs font-semibold uppercase tracking-wider hover:bg-white/5 transition-colors border-b border-white/10 mb-1"
+                          >
+                            View All Projects
+                          </button>
+                          {projects.map((p) => (
+                            <button
+                              key={p.id}
+                              onClick={() => handleNav(`/projects/${p.slug}`)}
+                              className={`w-full text-left px-5 py-2 text-sm transition-colors flex items-center gap-3 group ${
+                                currentPath === `/projects/${p.slug}`
+                                  ? 'text-amber-400 bg-amber-500/10'
+                                  : 'text-white/70 hover:text-amber-300 hover:bg-white/5'
+                              }`}
+                            >
+                              <img
+                                src={p.image}
+                                alt=""
+                                className="w-10 h-10 object-cover rounded-sm shrink-0"
+                              />
+                              <div className="min-w-0">
+                                <div className="truncate text-xs font-medium">{p.title}</div>
+                                <div className="text-[10px] text-white/40 uppercase tracking-wider">
+                                  {p.category}{p.year && ` · ${p.year}`}
+                                </div>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 );
               }
@@ -134,19 +184,64 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
         >
           <div className="pt-20 px-6 pb-6 h-full overflow-y-auto">
             <nav className="flex flex-col gap-1">
-              {navItems.map((item) => (
-                <button
-                  key={item.path}
-                  onClick={() => handleNav(item.path)}
-                  className={`text-left px-4 py-3 text-sm font-medium tracking-wide uppercase rounded-lg transition-colors ${
-                    isActive(item.path)
-                      ? 'bg-amber-500/10 text-amber-400'
-                      : 'text-white/90 hover:bg-white/5'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
+              {navItems.map((item) => {
+                if (item.label === 'Projects') {
+                  return (
+                    <div key={item.path}>
+                      <button
+                        onClick={() => setMobileProjectsOpen(!mobileProjectsOpen)}
+                        className={`w-full flex items-center justify-between text-left px-4 py-3 text-sm font-medium tracking-wide uppercase rounded-lg transition-colors ${
+                          isActive(item.path)
+                            ? 'bg-amber-500/10 text-amber-400'
+                            : 'text-white/90 hover:bg-white/5'
+                        }`}
+                      >
+                        {item.label}
+                        <ChevronDown
+                          size={16}
+                          className={`transition-transform duration-300 ${mobileProjectsOpen ? 'rotate-180' : ''}`}
+                        />
+                      </button>
+                      {mobileProjectsOpen && (
+                        <div className="ml-4 mt-1 mb-2 max-h-[40vh] overflow-y-auto">
+                          <button
+                            onClick={() => handleNav('/projects')}
+                            className="w-full text-left px-4 py-2 text-amber-400 text-xs font-semibold uppercase tracking-wider hover:bg-white/5 rounded-lg transition-colors"
+                          >
+                            View All Projects
+                          </button>
+                          {projects.map((p) => (
+                            <button
+                              key={p.id}
+                              onClick={() => handleNav(`/projects/${p.slug}`)}
+                              className={`w-full text-left px-4 py-2 text-xs rounded-lg transition-colors ${
+                                currentPath === `/projects/${p.slug}`
+                                  ? 'text-amber-400 bg-amber-500/10'
+                                  : 'text-white/60 hover:bg-white/5'
+                              }`}
+                            >
+                              {p.title}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+                return (
+                  <button
+                    key={item.path}
+                    onClick={() => handleNav(item.path)}
+                    className={`text-left px-4 py-3 text-sm font-medium tracking-wide uppercase rounded-lg transition-colors ${
+                      isActive(item.path)
+                        ? 'bg-amber-500/10 text-amber-400'
+                        : 'text-white/90 hover:bg-white/5'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
             </nav>
             <div className="mt-8 pt-6 border-t border-white/10">
               <a

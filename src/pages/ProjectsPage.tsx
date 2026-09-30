@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react';
 import { projects } from '@/data/projects';
 import Breadcrumb from '@/components/Breadcrumb';
+import Parallax from '@/components/Parallax';
 
 interface ProjectsPageProps {
   onNavigate: (path: string) => void;
@@ -9,19 +10,14 @@ interface ProjectsPageProps {
 export default function ProjectsPage({ onNavigate }: ProjectsPageProps) {
   return (
     <div className="bg-white min-h-screen">
-      <section className="relative h-[40vh] min-h-[300px] overflow-hidden">
-        <img
-          src="/images/projects/project-5.jpg"
-          alt="Projects"
-          className="w-full h-full object-cover"
-        />
+      <Parallax src="/images/projects/project-5.jpg" alt="Projects" height="h-[40vh] min-h-[300px]">
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white px-4">
             <h1 className="text-4xl md:text-6xl font-light tracking-tight mb-4">Our Projects</h1>
           </div>
         </div>
-      </section>
+      </Parallax>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         <Breadcrumb items={[{ label: 'Home', path: '/' }, { label: 'Projects' }]} onNavigate={onNavigate} />

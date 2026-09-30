@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Phone, Mail, MapPin, Send } from 'lucide-react';
 import { contactInfo } from '@/data/projects';
 import Breadcrumb from '@/components/Breadcrumb';
+import Parallax from '@/components/Parallax';
 
 interface ContactPageProps {
   onNavigate: (path: string) => void;
@@ -22,19 +23,14 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
 
   return (
     <div className="bg-white min-h-screen">
-      <section className="relative h-[40vh] min-h-[300px] overflow-hidden">
-        <img
-          src="/images/projects/project-9.jpg"
-          alt="Contact"
-          className="w-full h-full object-cover"
-        />
+      <Parallax src="/images/projects/project-9.jpg" alt="Contact" height="h-[40vh] min-h-[300px]">
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white px-4">
             <h1 className="text-4xl md:text-6xl font-light tracking-tight mb-4">Contact</h1>
           </div>
         </div>
-      </section>
+      </Parallax>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         <Breadcrumb items={[{ label: 'Home', path: '/' }, { label: 'Contact' }]} onNavigate={onNavigate} />

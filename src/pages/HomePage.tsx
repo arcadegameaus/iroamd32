@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 import { projects, homeHeroSlides, industryAssociations, contactInfo } from '@/data/projects';
+import Parallax from '@/components/Parallax';
 
 interface HomePageProps {
   onNavigate: (path: string) => void;
@@ -21,16 +22,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="relative h-screen min-h-[600px] overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="/images/misc/pic7.jpeg"
-            alt="Architectural design"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70" />
-        </div>
-
+      <Parallax src="/images/misc/pic7.jpeg" alt="Architectural design" height="h-screen min-h-[600px]" speed={0.5}>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70" />
         <div className="relative h-full flex items-center justify-center">
           <div className="text-center px-4 max-w-4xl mx-auto">
             <div className="overflow-hidden">
@@ -75,7 +68,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
           <ChevronRight className="text-white/50 rotate-90" size={28} />
         </div>
-      </section>
+      </Parallax>
 
       {/* About Company Section */}
       <section className="py-24 bg-stone-50">
@@ -230,14 +223,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-stone-900 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <img
-            src="/images/projects/project-5.jpg"
-            alt=""
-            className="w-full h-full object-cover"
-          />
-        </div>
+      <Parallax src="/images/projects/project-5.jpg" alt="" height="py-24" speed={0.3}>
+        <div className="absolute inset-0 bg-stone-900/90" />
         <div className="relative max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-5xl font-light text-white mb-6">
             Ready to Start Your Project?
@@ -256,7 +243,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             {contactInfo.phone} · {contactInfo.email}
           </p>
         </div>
-      </section>
+      </Parallax>
     </div>
   );
 }

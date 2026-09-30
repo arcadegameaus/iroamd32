@@ -1,6 +1,7 @@
 import { Award, Briefcase, Users } from 'lucide-react';
 import { aboutBio, aboutExperience, aboutAwards, aboutCollaborations } from '@/data/projects';
 import Breadcrumb from '@/components/Breadcrumb';
+import Parallax from '@/components/Parallax';
 
 interface AboutPageProps {
   onNavigate: (path: string) => void;
@@ -10,19 +11,14 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
   return (
     <div className="bg-white min-h-screen">
       {/* Hero */}
-      <section className="relative h-[50vh] min-h-[400px] overflow-hidden">
-        <img
-          src="/images/misc/john-laughton.jpg"
-          alt="John Laughton"
-          className="w-full h-full object-cover"
-        />
+      <Parallax src="/images/misc/john-laughton.jpg" alt="John Laughton" height="h-[50vh] min-h-[400px]">
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/50" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white px-4">
             <h1 className="text-4xl md:text-6xl font-light tracking-tight mb-4">About</h1>
           </div>
         </div>
-      </section>
+      </Parallax>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         <Breadcrumb items={[{ label: 'Home', path: '/' }, { label: 'About' }]} onNavigate={onNavigate} />

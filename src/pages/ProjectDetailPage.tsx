@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ArrowLeft, ArrowRight, Building2, DollarSign } from 'lucide-react';
 import { projects } from '@/data/projects';
 import Breadcrumb from '@/components/Breadcrumb';
+import Parallax from '@/components/Parallax';
 
 interface ProjectDetailPageProps {
   slug: string;
@@ -36,12 +37,7 @@ export default function ProjectDetailPage({ slug, onNavigate }: ProjectDetailPag
 
   return (
     <div className="bg-white min-h-screen">
-      <section className="relative h-[60vh] min-h-[400px] overflow-hidden">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="w-full h-full object-cover"
-        />
+      <Parallax src={project.image} alt={project.title} height="h-[60vh] min-h-[400px]">
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/60" />
         <div className="absolute inset-0 flex items-end justify-start">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12">
@@ -53,7 +49,7 @@ export default function ProjectDetailPage({ slug, onNavigate }: ProjectDetailPag
             </h1>
           </div>
         </div>
-      </section>
+      </Parallax>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         <Breadcrumb
